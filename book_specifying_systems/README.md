@@ -63,3 +63,21 @@ lines
 *)
 \* end of line
 ```
+
+
+## Chapter 4 A FIFO
+
+- `INSTANCE` instantiation is substitution
+```
+IM == INSTANCE M WITH p1 <- e1, p2 <- e2, ...
+```
+- parameterized instantiation
+```
+IM(a) == INSTANCE M with p1 <- e1(a), p2 <- e2(a), ...
+```
+- implicit substitutions: unspecified replacements will expand automatically to `r <- r`
+- instantiation without renaming, e.g. when there is only one instance
+```
+INSTANCE Channel WITH Data <- D, chan <- x
+```
+- closed systems: system + environment; usually easier to specify
