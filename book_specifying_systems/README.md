@@ -81,3 +81,40 @@ IM(a) == INSTANCE M with p1 <- e1(a), p2 <- e2(a), ...
 INSTANCE Channel WITH Data <- D, chan <- x
 ```
 - closed systems: system + environment; usually easier to specify
+
+
+## Chapter 5 A Caching Memory
+
+- `CHOOSE x: F` equals an arbitrarily chosen value `x` that satisfies formula
+  `F`. If no such `x` exists, then the expression has a completely arbitrary
+  value
+- For any sets `S` and `T`, the set of all functions whose domain equals `S` and
+  whose range is any subset of `T` is written `[S -> T]`
+- In TLA+, `[x \in S |-> e]` is the function `f` with domain `S` such that `f[x]
+  = e`
+- `DOMAIN f` is the domain of function `f`
+- a record is a function whose domain is a finite set of strings and `r.ack` is
+  an abbreviation for `r["ack"]`
+- function with multiple arguments can be defined like this
+```
+f == [n \in Nat, m \in Real |-> n*m]
+f[n, m]
+```
+- recursive function definition
+```
+fact[n \in Nat] == IF n = 0 THEN 1 ELSE n * fact[n-1]
+```
+- `Spec => [](TypeInvariant /\ Coherence)` does not imply that both
+  `TypeInvariant` and `Coherence` are invariants of the next-state action `Next`
+  because `THEOREM Coherence /\ [Next]_v => Coherence'` does not necessary hold
+  if we had a different `Init` condition. Proving `Coherence`'s invariance is
+  not so easy.  We must find a predicate `Inv` that is an invariant of `Next`
+  such that `Inv` implies `Coherence` and is implied by the initial predicate
+  `Init`.
+- About "Proving Implementation"
+  - Finding concrete "witnesses" for the temporal existential operators and
+    substituting them is called *refinement mapping* when the formula holds with
+    these substituted values.
+  - *step simulation*: find an invariant such that the step in the spec
+    implementing another spec is either a `Next` step in the implemented spec or
+    a stuttering step in the implemented spec
