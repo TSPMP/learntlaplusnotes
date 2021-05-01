@@ -112,9 +112,9 @@ fact[n \in Nat] == IF n = 0 THEN 1 ELSE n * fact[n-1]
   such that `Inv` implies `Coherence` and is implied by the initial predicate
   `Init`.
 - About "Proving Implementation"
-  - Finding concrete "witnesses" for the temporal existential operators and
-    substituting them is called *refinement mapping* when the formula holds with
-    these substituted values.
-  - *step simulation*: find an invariant such that the step in the spec
-    implementing another spec is either a `Next` step in the implemented spec or
-    a stuttering step in the implemented spec
+    - Finding concrete "witnesses" for the temporal existential operators and
+      substituting them is called *refinement mapping* when the formula holds
+      with these substituted values.
+    - *step simulation*: find an invariant such that the step in the spec
+      implementing another spec is either a `Next` step in the implemented spec
+      or a stuttering step in the implemented spec
