@@ -108,7 +108,7 @@ fact[n \in Nat] == IF n = 0 THEN 1 ELSE n * fact[n-1]
   `TypeInvariant` and `Coherence` are invariants of the next-state action `Next`
   because `THEOREM Coherence /\ [Next]_v => Coherence'` does not necessary hold
   if we had a different `Init` condition. Proving `Coherence`'s invariance is
-  not so easy.  We must find a predicate `Inv` that is an invariant of `Next`
+  not so easy. We must find a predicate `Inv` that is an invariant of `Next`
   such that `Inv` implies `Coherence` and is implied by the initial predicate
   `Init`.
 - About "Proving Implementation"
@@ -183,3 +183,89 @@ can be satisfied by a lot of different `f`. (1) implies (2) but not vice versa.
 - the `CHOOSE` operator is known to logicians as Hilbert's epsilon.
 - the most common use case is to "name" a uniquely specified value
 - can be an unspecified value
+
+## Chapter 7 Writing a Specification: Some Advice
+
+### Why Specify
+
+- the benefit a specification provides must justify the effort
+- the purpose of writing a specification is to help avoid errors
+- Writing a TLA+ specification can help the design process. Having to describe a
+  design precisely often reveals problems - subtle interactions and "corner
+  cases" that are easily overlooked.
+- A TLA+ specification can provide a clear, concise way of communicating design.
+  It helps ensure designers agree on what they have designed, and it provides a
+  valuable guide to the engineers who implement and test the system. It may also
+  help users understand the system.
+- A TLA+ specification is a formal description to which tools can be appliedto
+  help find errors in the design and to help in testing the system.
+
+### What to Specify
+
+- a specification is a mathematical model of a particular view of some part of a
+  system
+- When writing a specification, the fist thing you must choose is exactly what
+  part of a system you want to model
+- The primary purpose of a specification is to help avoid errors. You should
+  specify those parts of the system for which a specification is most likely to
+  reveal errors.
+- TLA+ is particularly effective at revealing concurrency errors—ones that arise
+  through the interaction of asynchronous components.
+
+### The Grain of Atomicity
+
+- After choosing what part of the system to specify, you must choose the
+  specification’s level of abstraction. The most important aspect of the level
+  of abstractionis the grain of atomicity, the choice of what system changes are
+  represented as a single step of a behavior.
+- The same sequence of system operations is represented by a shorter sequence of
+  steps in a coarser-grained representation than in a  finer-grained one. This
+  almost always makes the coarser-grained specification simpler than the
+  finer-grained one. However, the finer-grained specification more accurately
+  describes the behavior of the actual system. A coarser-grained specification
+  may fail to reveal important details of the system.
+- Let `S1` be the coarser grained spec and `S2` be the finer grained spec, i.e.
+  `S1` represents multiple steps in `S2` as a single one.
+- Questions to ask
+    - Are the sub-steps in `S2` always enabled in a sequential way? Can the
+      "first" step appear twice in a row?
+    - Are the intermediate steps in the fine grained spec important to the
+      problem?
+    - More formally: Do the actions *commute*?
+- A simple sufficient condition for commutativity of two actions are
+    - each one leaves unchanged any variable whose value may be changed by the
+      other
+    - neither enables or disables the other
+
+### The Data Structures
+
+- Another aspect of a specification’s level of abstraction is the accuracy with
+  which it describes the system’s data structures. Describing the data
+  structures in more details complicates the specification.
+- Question to ask:
+    - Does specifying the data structures in more detail help prevent any
+      errors?
+    - Is TLA+ the right way to catch these kinds of errors?
+
+### Writing the Specification
+
+1. Do always
+    - pick the variables
+    - define the type invariant
+    - define the initial predicate
+2. Do when necessary
+    - determine constant parameters and assumptions about them
+3. Do always writing the next-state action
+    - decompose the next-state action as the disjunction of actions describing
+      the different kinds of system operations
+    - define those actions
+    - determine which of the standard modules you need and add the appropriate
+      `EXTENDS` statement
+4. Do when necessary writing the next-state action
+    - sketch a fex example behaviors
+    - define state predicates and state functions that are used in several
+      different action definitions
+    - define constant operators for the data structures you are using
+5. Write the temporal part of the specification, i.e. specify the liveness
+   properties by choosing the appropriate fairness conditions
+6. Assert theorems about the specification
