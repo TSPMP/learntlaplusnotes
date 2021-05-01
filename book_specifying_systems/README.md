@@ -118,3 +118,68 @@ fact[n \in Nat] == IF n = 0 THEN 1 ELSE n * fact[n-1]
     - *step simulation*: find an invariant such that the step in the spec
       implementing another spec is either a `Next` step in the implemented spec
       or a stuttering step in the implemented spec
+
+## Chapter 6 Some More Math
+
+### Sets
+
+- `UNION S`: `S` is a set of sets. Takes the union of all elements of `S`.
+- `SUBSET S`: power set of `S`
+- `{x \in S: p}`: subset of `S` consisting of all elements `x` satisfying
+  property `p`
+- `{e: x \in S}`: the set of all elements of form `e` of all elements `x` in `S`
+- standard module `FiniteSets`
+    - `Cardinality(S)`
+    - `IsFiniteSet(S)`
+- A collection `C` is too big to be a set if it is as big as the collection of
+  allsets — meaning that we can assign to every set a different element of `C`.
+
+### Recursion Revisited
+
+```
+f[x \in S] = e
+```
+is an abbreviation for
+```
+f == CHOOSE f: [x \in S |-> e]
+```
+If there is no `f` which satisfies this condition, then the value is
+unspecified.
+
+- TLA+ does not allow circular definitions in which two or more functions are
+  defined in terms of one another. However, you can convert any mutually
+  recursive definition into a single recursive definition of a record-valued
+  function whose fields are the desired functions.
+
+### Functions vs Operators
+
+```
+Operator(x) == ...
+Function[x \in S] == ...
+```
+- a function by itself is a complete expression which denotes a value but an
+  operator is not, e.g. `f \in S` and `f[x] \in S` are syntactically correct but
+  `o \in S` is not
+- unlike an operator, a function must have a domain, which is a set
+- Unlike a function, an operator cannot be defined recursively in TLA+. However,
+  we can usually transform an illegal recursive operator definition into a
+  nonrecursive one using a recursive function definition.
+- Operators also differ from functions in that an operator can take an operator
+  as an argument. They can also take infix-operators as an argument (like that
+  `_<_`)
+- TLA+ does not allow the definition of infix functions.
+
+### Using functions
+
+```
+(1) f' = [i \in Nat |-> i + 1]
+(2) \A i \in Nat: f'[i] = i + 1
+```
+are not the same function definition. The (1) is a function definition and (2)
+can be satisfied by a lot of different `f`. (1) implies (2) but not vice versa.
+
+### Choose
+
+- the `CHOOSE` operator is known to logicians as Hilbert's epsilon.
+- the most common use case is to "name" a uniquely specified value
+- can be an unspecified value
