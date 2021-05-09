@@ -204,7 +204,7 @@ can be satisfied by a lot of different `f`. (1) implies (2) but not vice versa.
 
 - a specification is a mathematical model of a particular view of some part of a
   system
-- When writing a specification, the fist thing you must choose is exactly what
+- When writing a specification, the first thing you must choose is exactly what
   part of a system you want to model
 - The primary purpose of a specification is to help avoid errors. You should
   specify those parts of the system for which a specification is most likely to
