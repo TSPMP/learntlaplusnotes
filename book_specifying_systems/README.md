@@ -1,5 +1,55 @@
 # Notes about [Specifying Systems](https://lamport.azurewebsites.net/tla/book.html?back-link=learning.html#book) by Leslie Lamport
 
+## Chapter 1 A Little Simple Math
+
+### Propositional Logic
+
+- mathematics of the two Boolean values `TRUE` and `False` and the operators
+  - $\land$ conjunction (and)
+  - $\lor$ disjunction (or)
+  - $\neg$ negation (not)
+  - $\Rightarrow$ implication (implies)
+  - $\equiv$ equivalence (is equivalent to)
+- precendence of propositonal operators (highest to lowest)
+  - $\neg$
+  - $\land$ and $\lor$
+  - $\Rightarrow$ and $\equiv$
+- *tautology (of propositional logic)*: (propositional-logic) formula that is
+  true for all possible values of its identifiers
+
+### Sets
+
+- we take as undefined concepts the notion of a set and the relation $\in$
+  where $x \in S$ means that $x$ is an element of $S$
+- a set can have a finite or infinite number of elements
+- two sets are equal iff they have the same elements
+- most common operations on sets are
+  - $\cap$ intersection
+  - $\cup$ union
+  - $\subseteq$ subset
+  - $\setminus$ set difference
+
+## Predicate Logic
+
+- predicate logic extends propositional logic with the two quantifiers
+  - $\forall$ universal quantification (for all)
+  - $\exists$ existential quantification (there exists)
+- tautology: $\exists x \in S: F \equiv \neg(\forall x \in S: \neg F)$
+- tautology: $\forall x \in {}: F$ for any $F$
+- $\forall x \in S: F$ and $\exists x \in S: F$ are said to be *bounded*
+- bounded and unbounded quantification are related by the following tautologies
+  - $(\forall x \in S: F) \equiv (\forall x: (x \in S) \Rightarrow F)$
+  - $(\exists x \in S: F) \equiv (\exists x: (x \in S) \land F)$
+- tautology: $(\exists x: F) \equiv \neg (\forall x: \neg F)$
+- $\forall$ generalizes $\land$
+- $\exists$ generalizes $\lor$
+- tautologies
+  - $(\forall x \in S: F) \land (\forall x \in S: G) \equiv (\forall x \in S: F \land G)$
+  - $(\exists x \in S: F) \lor (\exists x \in S: G) \equiv (\exists x \in S: F \lor G)$
+- typical abbreviations
+  - $\forall x \in S, y \in T: F$ means $\forall x \in S: (\forall y \in T: F)$
+  - $\exists x, y \in S: F$ means $\exists x \in S: (\exists y \in S: F)$
+
 ## Chapter 2 Specifying a Simple Clock
 
 - like in physics, systems can often be described in terms of their state
